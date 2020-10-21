@@ -16,7 +16,7 @@ public class TestServer {
          * 4、bossGroup workerGroup含有的子线程（NioEventLoop）个数 == 默认实际CPU核数×2
          */
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
