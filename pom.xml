@@ -18,6 +18,15 @@
     </properties>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
@@ -62,18 +71,18 @@
     </repositories>-->
 
     <!--Maven远程插件库设置 非必要，可以删除-->
-   <!-- <pluginRepositories>
-        <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>-->
+    <!-- <pluginRepositories>
+         <pluginRepository>
+             <id>public</id>
+             <name>aliyun nexus</name>
+             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+             <releases>
+                 <enabled>true</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>false</enabled>
+             </snapshots>
+         </pluginRepository>
+     </pluginRepositories>-->
 
 </project>
