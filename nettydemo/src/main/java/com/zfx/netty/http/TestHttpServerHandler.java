@@ -8,6 +8,8 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URI;
+
 /**
  * 说明：
  *  1\SimpleChannelInboundHandler 是 ChannelInboundHandlerAdapter
@@ -29,6 +31,15 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
         if(msg instanceof HttpRequest){
             log.info("msg 类型 = ·「{}」",msg.getClass());
             log.info("客户端地址: "+ctx.channel().remoteAddress().toString().substring(1));
+
+            //获取
+            HttpRequest httpRequest = (HttpRequest) msg;
+            //获取URI
+            URI uri = new URI(httpRequest.uri());
+            if("/favicon.ico".equals(uri.getPath())){
+                log.info("请求了 favicon.ico ，不做响应");
+                return;
+            }
 
             //回复消息给客户端··「Http协议」
             ByteBuf content = Unpooled.copiedBuffer("hello,我是服务器", CharsetUtil.UTF_8);
