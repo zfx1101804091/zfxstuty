@@ -46,6 +46,8 @@ public class SimpleServerHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("与客户端 [{}] 连接成功...", ctx.channel().remoteAddress());
+        TextWebSocketFrame frame = new TextWebSocketFrame("mamamamama");
+        ctx.writeAndFlush(frame);
         channelGroup.add(ctx.channel());
     }
 
