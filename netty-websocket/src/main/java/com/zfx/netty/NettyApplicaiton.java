@@ -21,7 +21,7 @@ public class NettyApplicaiton implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-       new SimpleServer().start();
+//       new SimpleServer().start();
         new SimpleClient().start();
     }
 }

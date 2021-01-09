@@ -36,7 +36,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         if(msg instanceof TextWebSocketFrame){
             TextWebSocketFrame frame = (TextWebSocketFrame)msg;
             response=frame.text();
-            System.out.println("mdddddd---"+response);
+            System.out.println("客户端接收的消息："+response);
             promise.setSuccess();
         }
             

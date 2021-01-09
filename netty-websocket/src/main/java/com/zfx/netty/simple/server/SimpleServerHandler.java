@@ -16,6 +16,7 @@ import sun.nio.cs.ext.MS874;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -46,8 +47,6 @@ public class SimpleServerHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("与客户端 [{}] 连接成功...", ctx.channel().remoteAddress());
-        TextWebSocketFrame frame = new TextWebSocketFrame("mamamamama");
-        ctx.writeAndFlush(frame);
         channelGroup.add(ctx.channel());
     }
 
@@ -57,13 +56,15 @@ public class SimpleServerHandler extends SimpleChannelInboundHandler<Object> {
         //1、文本消息
         if (msg instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) msg;
-            //第一次连接成功，给客户端发送消息
-            sendMessageAll();
+            
             //获取当前channel绑定的IP地址
             InetSocketAddress ipSocket = (InetSocketAddress) ctx.channel().remoteAddress();
             String address = ipSocket.getAddress().getHostAddress();
-            log.info("当前连接地址：[{}] 接收的客户端消息：{}", address,textFrame.text());
+            log.info("当前连接地址：[{}] 接收的客户端消息：{}", address, textFrame.text());
 
+            //第一次连接成功，给客户端发送消息
+            sendMessageAll();
+            
             //将IP和channel的关系保存
             if (!channelMap.containsKey(address)) {
                 channelMap.put(address, ctx.channel());
@@ -73,24 +74,24 @@ public class SimpleServerHandler extends SimpleChannelInboundHandler<Object> {
         //2、二进制消息
         if (msg instanceof BinaryWebSocketFrame) {
             log.info("收到二进制消息：" + ((BinaryWebSocketFrame) msg).content().readableBytes());
-            
+
             BinaryWebSocketFrame binaryWebSocketFrame = new BinaryWebSocketFrame(Unpooled.buffer().writeBytes("客户端 这是服务端我给你的发送的消息".getBytes()));
             //给客户端发送的消息
             ctx.channel().writeAndFlush(binaryWebSocketFrame);
         }
-        
+
         //ping消息
         if (msg instanceof PongWebSocketFrame) {
             log.info("客户端ping成功");
         }
-        
+
         //关闭消息
         if (msg instanceof CloseWebSocketFrame) {
             log.info("客户端关闭，通道关闭");
             Channel channel = ctx.channel();
             channel.close();
         }
-        
+
     }
 
     /**
@@ -144,7 +145,13 @@ public class SimpleServerHandler extends SimpleChannelInboundHandler<Object> {
      * 群发消息
      */
     public void sendMessageAll() {
-        String meesage = "这是群发信息";
-        channelGroup.writeAndFlush(new TextWebSocketFrame(meesage));
+
+        String str = "";
+        for (int i = 0; i <1 ; i++) {
+            str+="hello nihao my computer"+"-"+LocalDateTime.now().toString();
+        }
+        
+//        String meesage = "当前服务端时间："+"-"+LocalDateTime.now().toString();
+        channelGroup.writeAndFlush(new TextWebSocketFrame(str));
     }
 }

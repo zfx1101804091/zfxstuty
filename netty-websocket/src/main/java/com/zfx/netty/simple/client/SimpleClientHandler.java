@@ -1,12 +1,14 @@
 package com.zfx.netty.simple.client;
 
+import com.google.common.eventbus.EventBus;
+import com.zfx.netty.simple.client.config.SpringUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
-
-import java.nio.channels.SocketChannel;
 
 /**
  * @description:
@@ -56,7 +58,12 @@ public class SimpleClientHandler extends SimpleChannelInboundHandler<Object> {
             //文本消息
             if(frame instanceof TextWebSocketFrame){
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-                log.info("客户端接收的消息是："+textFrame.text());                
+                log.info("客户端接收的消息是："+textFrame.text());
+                
+                /**###########################################################*/
+//                SpringUtil.getBean(EventBus.class).post(textFrame.text());
+                SpringUtil.getBean(EventBus.class).post(Unpooled.copiedBuffer(textFrame.text().getBytes()));
+
             }
 
             //二进制信息
@@ -120,6 +127,7 @@ public class SimpleClientHandler extends SimpleChannelInboundHandler<Object> {
      */
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("连接异常：" + cause.getMessage());
+        cause.printStackTrace();
         ctx.close();
     }
 

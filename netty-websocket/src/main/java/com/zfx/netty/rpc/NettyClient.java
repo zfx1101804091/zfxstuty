@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,8 +41,10 @@ public class NettyClient {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         NettyClient client = new NettyClient("127.0.0.1", 10011);
-        String nettyResponse = client.send("踩踩我是谁");
-        System.out.println(nettyResponse);
+        while (true){
+            Thread.sleep(5000);
+            String nettyResponse = client.send("客户端发送："+ LocalDateTime.now().toString());
+        }
     }
     
     //创建线程池

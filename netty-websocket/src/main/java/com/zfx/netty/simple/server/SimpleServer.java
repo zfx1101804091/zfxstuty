@@ -45,7 +45,7 @@ public class SimpleServer {
                     .channel(NioServerSocketChannel.class) //5、使用NioServerSocketChannel作为服务器通道的实现
                     .option(ChannelOption.SO_BACKLOG,1024*1024*10) //6、设置线程队列中等待连接的个数
                     .childOption(ChannelOption.SO_KEEPALIVE,true) //7、保持活动连接状态
-                    .handler(new LoggingHandler(LogLevel.INFO))
+                    //.handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() { //8、创建一个通道初始化对象
                         //9、往pipeline链中添加自定义的handler
                         @Override

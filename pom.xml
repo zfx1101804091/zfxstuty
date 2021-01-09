@@ -9,6 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>netty-websocket</module>
+        <module>netty-client</module>
+        <module>netty-server</module>
+        <module>netty-demo</module>
+        <module>zfx_docker_1</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 
 /**
  * @description: Netty客户端
@@ -78,7 +79,10 @@ public class SimpleClient {
             handler.handshakeFuture().sync();
             log.info("握手成功。。。");
             //给服务端发送的内容，如果客户端与服务端连接成功后，可以多次掉用这个方法发送消息
-            sengMessage(channel);
+            while (true){
+                Thread.sleep(5000);
+                sengMessage(channel);
+            }
             
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -90,7 +94,7 @@ public class SimpleClient {
     }
     public static void sengMessage(Channel channel){
         //发送的内容，是一个文本格式的内容
-        String putMessage="你好，我是客户端";
+        String putMessage="你好，我是客户端"+ LocalDateTime.now().toString();
         TextWebSocketFrame frame = new TextWebSocketFrame(putMessage);
         channel.writeAndFlush(frame).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
